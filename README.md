@@ -1,2 +1,3 @@
 # url-shortener-extension
-Chrome Extension For URL Shortener
+Chrome Extension for [URL Shortener](https://url.kaolafed.com)
+

@@ -1,3 +1,5 @@
+let pingable = true;
+
 function copy(text) {
   let copyFrom, body;
   copyFrom = document.createElement("textarea");
@@ -24,8 +26,28 @@ function isUrl(str = '') {
   return regexp.test(str);
 }
 
-chrome.browserAction.onClicked.addListener(function (tab) {
-  if (!isUrl(tab.url)) return;
+function ping() {
+  fetch('https://url.kaolafed.com/ping').then(res => {
+    pingable = true;
+  }).catch(e => {
+    pingable = false;
+  });
+}
+
+function updateIcon() {
+  chrome.tabs.query({
+    active: true
+  }, tab => {
+    const isActive = pingable && isUrl(tab[0].url || '');
+    const icon = `images/icon16${isActive ? '': '_off'}.png`;
+    chrome.browserAction.setIcon({
+      path: icon
+    });
+  });
+}
+
+chrome.browserAction.onClicked.addListener( tab => {
+  if (!pingable || !isUrl(tab.url)) return;
 
   fetch('https://url.kaolafed.com/shorten', {
     method: 'POST',
@@ -42,3 +64,14 @@ chrome.browserAction.onClicked.addListener(function (tab) {
     console.log(e);
   });
 });
+
+chrome.tabs.onActivated.addListener(() => {
+  updateIcon();
+});
+
+chrome.tabs.onUpdated.addListener(() => {
+  updateIcon();
+});
+
+ping();
+setInterval(ping, 60 * 60 * 1000);

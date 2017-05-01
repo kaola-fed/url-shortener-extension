@@ -39,7 +39,7 @@ function updateIcon() {
     active: true
   }, tab => {
     const isActive = pingable && isUrl(tab[0].url || '');
-    const icon = `images/icon16${isActive ? '': '_off'}.png`;
+    const icon = `images/icon32${isActive ? '': '_off'}.png`;
     chrome.browserAction.setIcon({
       path: icon
     });

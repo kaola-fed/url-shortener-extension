@@ -36,7 +36,8 @@ function ping() {
 
 function updateIcon() {
   chrome.tabs.query({
-    active: true
+    active: true,
+    currentWindow: true
   }, tab => {
     const isActive = pingable && isUrl(tab[0].url || '');
     const icon = `images/icon32${isActive ? '': '_off'}.png`;

@@ -1,4 +1,4 @@
-let pingable = true;
+let pingable = false;
 
 function copy(text) {
   let copyFrom, body;
@@ -12,9 +12,9 @@ function copy(text) {
 }
 
 function notify(url) {
-  const notification = new Notification(url, {
-    icon: 'images/icon48.png',
-    body: 'Copied to clipboard'
+  const notification = new Notification(url || 'WARNING', {
+    icon: `images/${url ? 'icon48' : 'error'}.png`,
+    body: url ? 'Copied to clipboard' : 'Not Available!',
   });
   setTimeout(() => {
     notification.close()
@@ -48,7 +48,9 @@ function updateIcon() {
 }
 
 chrome.browserAction.onClicked.addListener( tab => {
-  if (!pingable || !isUrl(tab.url)) return;
+  if (!pingable || !isUrl(tab.url)) {
+    return notify();
+  };
 
   fetch('https://url.kaolafed.com/shorten', {
     method: 'POST',

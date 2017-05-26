@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "URL Shortener",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "browser_action": {
     "name": "Shorten URL!"
   },

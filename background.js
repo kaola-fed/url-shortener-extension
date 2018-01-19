@@ -57,7 +57,7 @@ chrome.browserAction.onClicked.addListener( tab => {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: 'url=' + tab.url.replace('&', '%26'),
+    body: 'url=' + tab.url.replace(/&/g, '%26'),
   }).then(response => {
     return response.text();
   }).then(text => {
